@@ -26,6 +26,7 @@ Interfaz **orientada al visitante** y al usuario final: contenido institucional,
 | **Actividades** | Listado/calendario de actividades en centros públicos; **formulario de reserva** asociado a una actividad. |
 | **Autenticación** | Registro, confirmación de correo, inicio y cierre de sesión integrados en la app. |
 | **Reservas y perfil** | Disponibles solo con sesión; el acceso sin autenticación redirige al login. |
+| **Notificaciones de reservas** | Envío de emails de confirmación y cancelación, y mensajes de WhatsApp donde el usuario puede responder para confirmar asistencia o cancelar. |
 
 ### 2.3 Experiencia transversal
 
@@ -78,6 +79,7 @@ Ambos consumen el **mismo modelo de negocio** en backend (centros, actividades, 
 
 - Navegación clara en todas las secciones informativas; centros y actividades alineados con datos reales del API.
 - Registro, login y flujos de reserva estables en entornos de prueba y producción.
+- Notificaciones de reservas operativas por email y WhatsApp, con procesamiento correcto de respuestas para confirmar asistencia o cancelar.
 - Despliegue con `VITE_API_BASE_URL` y configuración Amplify correctas.
 
 **Administradores**
