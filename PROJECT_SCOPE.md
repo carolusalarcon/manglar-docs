@@ -1,18 +1,13 @@
 # Alcance del ecosistema Manglar
 
-Este documento describe el **alcance funcional y técnico** de los dos frontends que conforman la plataforma **Manglar** en torno a **Promotora Althea**: la aplicación **pública** y la aplicación para **administradores**. Comparten filosofía de arquitectura (React, Vite, MUI, React Query, i18n) y el mismo backend conceptual (`/api/manglar` por defecto), pero difieren en **audiencia**, **flujo de autenticación** y **capacidades**.
-
-| Rol | Repositorio | Ruta local (referencia) |
-|-----|-------------|-------------------------|
-| **Sitio público** | `manglar-ui` | `/Users/carlos.alarcon/Documents/PERSONAL/manglar-ui` |
-| **Panel de administración** | `manglar-admin-ui` | `/Users/carlos.alarcon/Documents/PERSONAL/manglar-admin-ui` |
+Este documento describe el **alcance funcional y técnico** de los dos frontends que conforman la plataforma **Manglar**: la aplicación **pública** y la aplicación para **administradores**. Comparten filosofía de arquitectura (React, Vite, MUI, React Query, i18n) y el mismo backend conceptual (`/api/manglar` por defecto), pero difieren en **audiencia**, **flujo de autenticación** y **capacidades**.
 
 ---
 
 ## 1. Visión general
 
-- **Objetivo conjunto**: ofrecer a la ciudadanía información y servicios (centros, actividades, reservas, contacto, donaciones) y, en paralelo, permitir que el personal autorizado **gestione** centros, actividades, usuarios y reservas desde un panel dedicado.
-- **Separación de productos**: el sitio público no sustituye al admin; son **dos aplicaciones desplegables de forma independiente** (URLs y credenciales de Cognito pueden diferir).
+- **Objetivo conjunto**: ofrecer información y servicios (centros, actividades, reservas, contacto, donaciones) y, en paralelo, permitir que el personal autorizado **gestione** centros, actividades, usuarios y reservas desde un panel dedicado.
+- **Separación de productos**: el sitio público no sustituye al admin; son **dos aplicaciones desplegables de forma independiente**.
 
 ---
 
@@ -37,11 +32,6 @@ Interfaz **orientada al visitante** y al usuario final: contenido institucional,
 - Internacionalización (ES/EN), tema claro/oscuro, layout con barra lateral y cabecera responsive.
 - **Navegación principal** basada en estado (`activePage`), no en rutas URL para la mayoría de las secciones (la app monta `Router` pero el menú impulsa vistas por estado).
 
-### 2.4 Integración técnica
-
-- **Autenticación**: AWS Amplify (`aws-amplify`), flujo usuario/contraseña y confirmación en aplicación.
-- **API**: variable `VITE_API_BASE_URL`; por defecto `/api/manglar`. Las peticiones pueden enviar el token de acceso de Cognito obtenido vía Amplify.
-
 ---
 
 ## 3. Aplicación administradores — `manglar-admin-ui`
@@ -60,17 +50,6 @@ Interfaz **orientada al visitante** y al usuario final: contenido institucional,
 | **Calendario** | Vista de calendario (FullCalendar) para la operación diaria. |
 | **Usuarios** | Administración de usuarios (listado y formulario). |
 | **Centros de conferencias** | CRUD / gestión de centros respecto al API. |
-
-### 3.3 Autenticación y rutas
-
-- **OAuth2 / OpenID** con **oidc-client-ts** y **Cognito Hosted UI** (redirección a login federado, callback en `/callback`).
-- Rutas declaradas: `/login`, `/callback`, `/`, y detalle `/activities/:id`. El resto del contenido protegido exige sesión; sin autenticación se redirige a `/login`.
-- Tokens en **localStorage** (`authToken`, `idToken`); la API usa `Authorization: Bearer` con el token almacenado.
-
-### 3.4 Integración técnica
-
-- **API**: variable `VITE_API_URL`; por defecto `/api/manglar` (mismo prefijo conceptual que el sitio público, nombre de variable distinto).
-- **Variables Cognito**: documentadas en el README del admin (`VITE_COGNITO_*`).
 
 ---
 
@@ -109,6 +88,3 @@ Ambos consumen el **mismo modelo de negocio** en backend (centros, actividades, 
 
 ---
 
-## 7. Mantenimiento de este documento
-
-Actualizar este archivo cuando cambien módulos relevantes (nuevas secciones públicas, nuevos menús de admin) o cuando se unifiquen criterios de variables de entorno o autenticación entre repositorios.
